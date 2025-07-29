@@ -1,4 +1,6 @@
-import { RegisterForm } from '@/app/components/register-form'
+'use client'
+
+import RegisterForm from "@/app/components/register-form"
 
 function Register() {
   return (

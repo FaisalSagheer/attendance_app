@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 const isLoggedIn = false;
 
 function middleware(request) {
-  if (!isLoggedIn && request.url === "http://localhost:3000/profile") {
+  if (!isLoggedIn && request.url === "http://localhost:3000/dashboard") {
     return NextResponse.redirect(new URL("/", request.url));
   }
   return NextResponse.next();

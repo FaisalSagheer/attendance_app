@@ -1,4 +1,3 @@
-'use client'
 
 import RegisterForm from "@/app/components/register-form"
 

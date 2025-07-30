@@ -13,29 +13,24 @@ import { Label } from "@/app/components/ui/label";
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/lib/firebase/config";
-// import { auth, db } from "@/lib/firebase/config";
+import { useRouter } from "next/navigation";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 function RegisterForm({ className, ...props }) {
-  //   const initialState = {
-  //   message: '',
-  // }
-
-  // const [state, formAction, pending] = useActionState(createUserDoc)
-  const [fname, setFname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const db = getFirestore()
+  const [userData, setUserData] = useState({ fname:"", email:"",password:"" });
+  const router = useRouter();
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
   const createUser = async (e) => {
-    createUserWithEmailAndPassword(email, password);
     e.preventDefault();
-    try {
-      const res = await createUserWithEmailAndPassword(email, password, fname);
-      console.log({ res });
-      setFname("");
-      setEmail("");
-      setPassword("");
+    const res = await createUserWithEmailAndPassword(userData.email,userData.password)
+    const user = res.user
+    try {  
+      const docRef = doc(db,"teachers",user.uid)
+      setDoc(docRef,userData)
+      router.push("/login");
+      console.log( userData );
     } catch (error) {
       console.log(error);
     }
@@ -58,8 +53,8 @@ function RegisterForm({ className, ...props }) {
                   id="fname"
                   name="fname"
                   type="text"
-                  value={fname}
-                  onChange={(e) => setFname(e.target.value)}
+                  value={userData.fname}
+                  onChange={(e) => setUserData({...userData,fname:e.target.value})}
                   placeholder="Jhon..."
                   required
                 />
@@ -71,8 +66,8 @@ function RegisterForm({ className, ...props }) {
                   type="email"
                   placeholder="m@example.com"
                   name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={userData.email}
+                  onChange={(e) => setUserData({...userData,email:e.target.value})}
                   required
                 />
               </div>
@@ -84,8 +79,8 @@ function RegisterForm({ className, ...props }) {
                   id="password"
                   type="password"
                   name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={userData.password}
+                  onChange={(e) => setUserData({...userData,password:e.target.value})}
                   required
                 />
               </div>

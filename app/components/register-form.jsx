@@ -12,25 +12,26 @@ import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "@/lib/firebase/config";
 import { useRouter } from "next/navigation";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { useAuth } from "../context/AuthContext";
+import { auth } from "@/lib/firebase/config";
 
 function RegisterForm({ className, ...props }) {
   const db = getFirestore()
-  const [userData, setUserData] = useState({ fname:"", email:"",password:"" });
+  const [payLoad, setPayLoad] = useState({ fname:"", email:"",password:"" });
   const router = useRouter();
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
   const createUser = async (e) => {
     e.preventDefault();
-    const res = await createUserWithEmailAndPassword(userData.email,userData.password)
+    const res = await createUserWithEmailAndPassword(payLoad.email,payLoad.password)
     const user = res.user
     try {  
       const docRef = doc(db,"teachers",user.uid)
-      setDoc(docRef,userData)
+      setDoc(docRef,payLoad)
       router.push("/login");
-      console.log( userData );
+      console.log( payLoad );
     } catch (error) {
       console.log(error);
     }
@@ -53,8 +54,8 @@ function RegisterForm({ className, ...props }) {
                   id="fname"
                   name="fname"
                   type="text"
-                  value={userData.fname}
-                  onChange={(e) => setUserData({...userData,fname:e.target.value})}
+                  value={payLoad.fname}
+                  onChange={(e) => setPayLoad({...payLoad,fname:e.target.value})}
                   placeholder="Jhon..."
                   required
                 />
@@ -66,8 +67,8 @@ function RegisterForm({ className, ...props }) {
                   type="email"
                   placeholder="m@example.com"
                   name="email"
-                  value={userData.email}
-                  onChange={(e) => setUserData({...userData,email:e.target.value})}
+                  value={payLoad.email}
+                  onChange={(e) => setPayLoad({...payLoad,email:e.target.value})}
                   required
                 />
               </div>
@@ -79,8 +80,8 @@ function RegisterForm({ className, ...props }) {
                   id="password"
                   type="password"
                   name="password"
-                  value={userData.password}
-                  onChange={(e) => setUserData({...userData,password:e.target.value})}
+                  value={payLoad.password}
+                  onChange={(e) => setPayLoad({...payLoad,password:e.target.value})}
                   required
                 />
               </div>

@@ -1,10 +1,11 @@
+'use client'
 import React from 'react'
-import Home from './(pages)/home/page'
+import Login from './(auth)/login/page'
 
 function page() {
   return (
     <div>
-      <Home/>
+      <Login/>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const isLoggedIn = false;
+const isLoggedIn = true;
 
 function middleware(request) {
   if (!isLoggedIn && request.url === "http://localhost:3000/dashboard") {

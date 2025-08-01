@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import { Button } from "@/app/components/ui/button";
 import {
   Card,
@@ -13,7 +13,7 @@ import { Label } from "@/app/components/ui/label";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { auth } from "@/lib/firebase/config";
+import { auth } from "@/app/lib/firebase/config";
 
 export function LoginForm({ className, ...props }) {
   const [userData,setUserData]=useState({email:"",password:""})

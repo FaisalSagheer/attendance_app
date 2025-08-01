@@ -6,6 +6,7 @@ import React from 'react'
 function Dashboard() {
   const router = useRouter()
   const handleSignout = ()=>{
+  // signOut()
   router.push("/login")
   }
   return (

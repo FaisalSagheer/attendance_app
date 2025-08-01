@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import { Button } from "@/app/components/ui/button";
 import {
   Card,
@@ -15,7 +15,7 @@ import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
-import { auth } from "@/lib/firebase/config";
+import { auth } from "@/app/lib/firebase/config";
 
 function RegisterForm({ className, ...props }) {
   const db = getFirestore()

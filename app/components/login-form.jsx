@@ -14,6 +14,7 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { auth } from "@/app/lib/firebase/config";
+import Invalid from "../(auth)/login/error";
 
 export function LoginForm({ className, ...props }) {
   const [userData,setUserData]=useState({email:"",password:""})
@@ -22,11 +23,17 @@ export function LoginForm({ className, ...props }) {
   const signIn = async (e) => {
     e.preventDefault();
     try {
-      const res = await SignInWithEmailAndPassword(userData.email, userData.password);
+      const userCredentials = await SignInWithEmailAndPassword(userData.email, userData.password);
       userData
       router.push("/dashboard");
     } catch (error) {
-      console.log(error);
+      const errorCode = error.code
+      if(errorCode === "auth/invalid-credentials"){
+        console.log(errorCode) 
+      }
+      else{
+        console.log("user doesnot exist")
+      }
     }
   };
   return (

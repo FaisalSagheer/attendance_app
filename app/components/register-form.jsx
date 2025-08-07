@@ -14,21 +14,20 @@ import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { useAuth } from "../context/AuthContext";
 import { auth } from "@/app/lib/firebase/config";
 
 function RegisterForm({ className, ...props }) {
   const db = getFirestore()
-  const [payLoad, setPayLoad] = useState({ fname:"", email:"",password:"" });
   const router = useRouter();
+  const [payLoad, setPayLoad] = useState({ fname:"", email:"",password:"" });
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
   const createUser = async (e) => {
     e.preventDefault();
-    const res = await createUserWithEmailAndPassword(payLoad.email,payLoad.password)
-    const user = res.user
+    const userCredentials = await createUserWithEmailAndPassword(payLoad.email,payLoad.password)
+    const user = userCredentials.user
     try {  
-      const docRef = doc(db,"teachers",user.uid)
+      const docRef = doc(db,"teachers")
       setDoc(docRef,payLoad)
       router.push("/login");
       console.log( payLoad );

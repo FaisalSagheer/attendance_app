@@ -13,26 +13,46 @@ import { Label } from "@/app/components/ui/label";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { auth } from "@/app/lib/firebase/config";
+import { auth, db } from "@/app/lib/firebase/config";
 import Invalid from "../(auth)/login/error";
+import { toast, ToastContainer } from "react-toastify";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 export function LoginForm({ className, ...props }) {
-  const [userData,setUserData]=useState({email:"",password:""})
+  const [userData, setUserData] = useState({ email: "", password: "" });
   const router = useRouter();
   const [SignInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  // async function getuserRole(uid) {
+  //   const userDoc = await getDoc(doc(db,"teacher",uid))
+  //   return userDoc.exists() ? userDoc.data():null
+  // }
   const signIn = async (e) => {
     e.preventDefault();
-    try {
-      const userCredentials = await SignInWithEmailAndPassword(userData.email, userData.password);
-      userData
-      router.push("/dashboard");
-    } catch (error) {
-      const errorCode = error.code
-      if(errorCode === "auth/invalid-credentials"){
-        console.log(errorCode) 
-      }
-      else{
-        console.log("user doesnot exist")
+    if (!userData.email) {
+      toast("Type Email");
+      return;
+    } else if (!userData.password) {
+      toast("Type Password");
+      return;
+    } else {
+      try {
+        const userCredentials = await SignInWithEmailAndPassword(
+          userData.email,
+          userData.password
+        );
+        const user = userCredentials.user;
+        const userRole = await getDoc(doc(db, "teachers", user.uid));
+        if(userRole){
+          router.push("/dashboard");
+          localStorage.setItem("User",user.uid)
+        }
+      } catch (error) {
+        const errorCode = error.code;
+        if (errorCode === "auth/invalid-credential") {
+          toast("Account DoesNot Exist!");
+        } else {
+          toast("Incorrect Email or Password");
+        }
       }
     }
   };
@@ -55,7 +75,9 @@ export function LoginForm({ className, ...props }) {
                   type="email"
                   placeholder="m@example.com"
                   value={userData.email}
-                  onChange={(e) => setUserData({...userData,email:e.target.value})}
+                  onChange={(e) =>
+                    setUserData({ ...userData, email: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -73,7 +95,9 @@ export function LoginForm({ className, ...props }) {
                   id="password"
                   type="password"
                   value={userData.password}
-                  onChange={(e) => setUserData({...userData,password:e.target.value})}
+                  onChange={(e) =>
+                    setUserData({ ...userData, password: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -92,6 +116,7 @@ export function LoginForm({ className, ...props }) {
           </form>
         </CardContent>
       </Card>
+      <ToastContainer />
     </div>
   );
 }

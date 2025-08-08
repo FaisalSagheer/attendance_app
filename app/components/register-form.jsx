@@ -13,27 +13,47 @@ import { Label } from "@/app/components/ui/label";
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { auth } from "@/app/lib/firebase/config";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "@/app/lib/firebase/config";
+import { toast, ToastContainer } from "react-toastify";
 
 function RegisterForm({ className, ...props }) {
-  const db = getFirestore()
-  const router = useRouter();
-  const [payLoad, setPayLoad] = useState({ fname:"", email:"",password:"" });
+  const [payLoad, setPayLoad] = useState({
+    fname: "",
+    email: "",
+    password: "",
+  });
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
   const createUser = async (e) => {
     e.preventDefault();
-    const userCredentials = await createUserWithEmailAndPassword(payLoad.email,payLoad.password)
-    const user = userCredentials.user
-    try {  
-      const docRef = doc(db,"teachers")
-      setDoc(docRef,payLoad)
+    const router = useRouter();
+    if (!payLoad.fname) {
+      toast("Write Name");
+      return;
+    } else if (!payLoad.email) {
+      toast("Write Email");
+      return;
+    }else if (!payLoad.password) {
+      toast("Write password");
+      return;
+    }
+    else{
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(
+        payLoad.email,
+        payLoad.password
+      );
+      const user = userCredentials.user;
+      const docRef = doc(db, "teachers", user.uid);
+      setDoc(docRef, payLoad);
       router.push("/login");
-      console.log( payLoad );
+      console.log(payLoad);
     } catch (error) {
       console.log(error);
     }
+    }
+
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -54,7 +74,9 @@ function RegisterForm({ className, ...props }) {
                   name="fname"
                   type="text"
                   value={payLoad.fname}
-                  onChange={(e) => setPayLoad({...payLoad,fname:e.target.value})}
+                  onChange={(e) =>
+                    setPayLoad({ ...payLoad, fname: e.target.value })
+                  }
                   placeholder="Jhon..."
                   required
                 />
@@ -67,7 +89,9 @@ function RegisterForm({ className, ...props }) {
                   placeholder="m@example.com"
                   name="email"
                   value={payLoad.email}
-                  onChange={(e) => setPayLoad({...payLoad,email:e.target.value})}
+                  onChange={(e) =>
+                    setPayLoad({ ...payLoad, email: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -80,7 +104,9 @@ function RegisterForm({ className, ...props }) {
                   type="password"
                   name="password"
                   value={payLoad.password}
-                  onChange={(e) => setPayLoad({...payLoad,password:e.target.value})}
+                  onChange={(e) =>
+                    setPayLoad({ ...payLoad, password: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -99,6 +125,7 @@ function RegisterForm({ className, ...props }) {
           </form>
         </CardContent>
       </Card>
+      <ToastContainer />
     </div>
   );
 }

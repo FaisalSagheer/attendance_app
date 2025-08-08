@@ -1,14 +1,23 @@
-import React from 'react';
+import React from "react";
 
-  import { ToastContainer, toast } from 'react-toastify';
-  
-  function App(){
-    const notify = () => toast("Wow so easy!");
+import { ToastContainer, toast } from "react-toastify";
 
-    return (
-      <div>
-        <button onClick={notify}>Notify!</button>
-        <ToastContainer />
-      </div>
-    );
-  }
+// function App() {
+//   const notify = () => toast("Wow so easy!");
+
+//   return (
+//     <div>
+//       <button onClick={notify}>Notify!</button>
+//       <ToastContainer />
+//     </div>
+//   );
+// }
+
+export function ErrorMsg() {
+  const Msg = () => {
+    toast("Sigin Error");
+  };
+  return(
+    <ToastContainer />
+  )
+}

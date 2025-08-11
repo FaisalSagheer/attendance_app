@@ -5,6 +5,7 @@ import { GraduationCap, Hand, LayoutIcon, Paperclip, Settings } from 'lucide-rea
 import { auth, db } from '@/app/lib/firebase/config'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
+import Link from 'next/link'
 
 export default function Sidebar() {
     const menuList = [
@@ -18,7 +19,7 @@ export default function Sidebar() {
             id: 2,
             name: 'Student',
             icon: GraduationCap,
-            path: '/dashboard/student'
+            path: '/dashboard/students'
         },
         {
             id: 3,
@@ -60,16 +61,18 @@ export default function Sidebar() {
                 <hr className='my-6'></hr>
                 {menuList.map((menu, index) =>
                     <div key={index}>
+                        <Link href={menu.path}>
                         <h2 className='flex items-center gap-3 text-md p-2
                           text-slate-500
-                        hover:bg-purple-700
-                        hover:text-white
-                         rounded-lg
-                         my-2
-                        '>
+                          hover:bg-purple-700
+                          hover:text-white
+                          rounded-lg
+                          my-2
+                          '>
                             <menu.icon/>
                             {menu.name}
                         </h2>
+                            </Link>
                     </div>
                 )}
                 <div className='flex items-center gap-1 bottom-5 fixed'>

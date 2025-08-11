@@ -28,17 +28,17 @@ function RegisterForm({ className, ...props }) {
   const createUser = async (e) => {
     e.preventDefault();
     const router = useRouter();
-    if (!payLoad.fname) {
-      toast("Write Name");
-      return;
-    } else if (!payLoad.email) {
-      toast("Write Email");
-      return;
-    }else if (!payLoad.password) {
-      toast("Write password");
-      return;
-    }
-    else{
+    // if (!payLoad.fname) {
+    //   toast("Write Name");
+    //   return;
+    // } else if (!payLoad.email) {
+    //   toast("Write Email");
+    //   return;
+    // }else if (!payLoad.password) {
+    //   toast("Write password");
+    //   return;
+    // }
+    // else{
     try {
       const userCredentials = await createUserWithEmailAndPassword(
         payLoad.email,
@@ -52,7 +52,7 @@ function RegisterForm({ className, ...props }) {
     } catch (error) {
       console.log(error);
     }
-    }
+    // }
 
   };
   return (

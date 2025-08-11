@@ -1,11 +1,12 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Login from './(auth)/login/page'
 
 function page() {
+  
   return (
     <div>
-      <Login/>
+      <Login />
     </div>
   )
 }

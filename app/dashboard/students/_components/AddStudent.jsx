@@ -13,11 +13,14 @@ import {
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import { Plus } from "lucide-react";
+import { useForm } from "react-hook-form";
 
 function AddStudent() {
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const onSubmit = data => console.log("FormData",data);
+ 
   return (
     <Dialog>
-      <form>
         <DialogTrigger asChild>
           <Button variant="outline">
             <Plus />
@@ -32,26 +35,28 @@ function AddStudent() {
               done.
             </DialogDescription>
           </DialogHeader>
+      <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="name-1">FullName :</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+              <Input  {...register("name")}/>
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="username-1">Address :</Label>
+              <Label htmlFor="address">Address :</Label>
               <Input
-                id="username-1"
-                name="e.g : 525 N tyron Street, NC"
-                defaultValue="@peduarte"
+                
+                {...register("address")}
               />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="contact">Contact :</Label>
-              <Input id="contact" name="contact" defaultValue="8794756395" />
+              <Label >Contact :</Label>
+              <Input  
+              {...register("contact")}/>
             </div>
             <div className="grid gap-3">
               <Label htmlFor="select">Select Grade : </Label>
-              <select className="p-3 border rounded-lg">
+              <select className="p-3 border rounded-lg"
+              {...register('grade',{required:true})}>
                 <option value={"5th"}>5th</option>
                 <option value={"6th"}>6th</option>
                 <option value={"7th"}>7th</option>
@@ -64,8 +69,8 @@ function AddStudent() {
             </DialogClose>
             <Button type="submit">Save</Button>
           </DialogFooter>
-        </DialogContent>
       </form>
+        </DialogContent>
     </Dialog>
   );
 }

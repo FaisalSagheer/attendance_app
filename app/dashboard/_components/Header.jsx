@@ -11,6 +11,6 @@ export default function Header() {
       <div>
         <Image src="/" alt="/" width={35} height={35} className='rounded-full'/>
       </div>
-    </div>
+     </div>
   )
 }

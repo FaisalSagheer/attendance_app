@@ -1,6 +1,9 @@
 
 "use client";
 
+import { doc } from "firebase/firestore";
+import { db } from "../lib/firebase/config";
+
 function Dashboard() {
 
   // const {setTheme} = useTheme()
@@ -14,6 +17,7 @@ function Dashboard() {
   //   localStorage.clear();
   //   router.push("/login");
   // };
+
   return (
     <>
     Page
@@ -22,3 +26,7 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+export async function GET(req) {
+  const result = doc(db,"grades")
+}

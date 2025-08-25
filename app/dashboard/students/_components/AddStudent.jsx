@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 
 function AddStudent() {
-  const[loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -28,77 +28,81 @@ function AddStudent() {
     reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = async(data) => {
-    setLoading(true)
-    try{
-      const student = `student_${Date.now()}`
-      const ref = doc(db, "grades",student);
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const student = `student_${Date.now()}`;
+      const ref = doc(db, "students", student);
       await setDoc(ref, data);
-      setLoading(false)
-      toast("Student Added")
+      setLoading(false);
+      toast("Student Added");
       reset();
-    }catch(error){
-     toast("error")
+    } catch (error) {
+      toast("error");
     }
   };
 
   return (
     <>
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">
-          <Plus />
-          Add Student
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add New Student</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid gap-4 pb-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1">FullName :</Label>
-              <Input {...register("name", { required: true })} />
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="outline">
+            <Plus />
+            Add Student
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Add New Student</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you&apos;re
+              done.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-4 pb-4">
+              <div className="grid gap-3">
+                <Label htmlFor="name-1">FullName :</Label>
+                <Input {...register("name", { required: true })} />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="address">Address :</Label>
+                <Input {...register("address", { required: true })} />
+              </div>
+              <div className="grid gap-3">
+                <Label>Contact :</Label>
+                <Input {...register("contact", { required: true })} />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="select">Select Grade : </Label>
+                <select
+                  className="p-3 border rounded-lg"
+                  {...register("grade", { required: true })}
+                >
+                  <option value={"5th"}>5th</option>
+                  <option value={"6th"}>6th</option>
+                  <option value={"7th"}>7th</option>
+                </select>
+              </div>
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="address">Address :</Label>
-              <Input {...register("address", { required: true })} />
-            </div>
-            <div className="grid gap-3">
-              <Label>Contact :</Label>
-              <Input {...register("contact", { required: true })} />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="select">Select Grade : </Label>
-              <select
-                className="p-3 border rounded-lg"
-                {...register("grade", { required: true })}
-              >
-                <option value={"5th"}>5th</option>
-                <option value={"6th"}>6th</option>
-                <option value={"7th"}>7th</option>
-              </select>
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="ghost" type="button">Cancel</Button>
-            </DialogClose>
-            <DialogClose asChild>
-            <Button type="submit" disable={loading}>{loading?<LoaderCircle className="animate-spin"/>:'Save'}</Button>
-            </DialogClose>
-          </DialogFooter>
-          {/* <Input {...register('example',{required:true})}/> */}
-          {/* {errors.example && <span>This field is required</span>} */}
-        </form>
-      </DialogContent>
-    </Dialog>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="ghost" type="button">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button type="submit" disable={loading}>
+                  {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+            {/* <Input {...register('example',{required:true})}/> */}
+            {/* {errors.example && <span>This field is required</span>} */}
+          </form>
+        </DialogContent>
+      </Dialog>
     </>
-
   );
 }
 

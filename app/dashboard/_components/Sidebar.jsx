@@ -6,6 +6,7 @@ import { auth, db } from '@/app/lib/firebase/config'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import Link from 'next/link'
+import { toast } from 'react-toastify'
 
 export default function Sidebar() {
     const menuList = [
@@ -46,11 +47,16 @@ export default function Sidebar() {
     if (local) {
       const docRef = doc(db, "teachers", local);
       const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const userData = docSnap.data();
-        document.getElementById("email").innerText = userData.email;
-        document.getElementById("fname").innerText = userData.fname;
-      }
+      try{
+          if (docSnap.exists()) {
+              const userData = docSnap.data();
+              document.getElementById("email").innerText = userData.email;
+              document.getElementById("fname").innerText = userData.fname;
+            }
+        }catch(error){
+        toast.error("Error Finding Data")
+        }
+
     }
   });
 

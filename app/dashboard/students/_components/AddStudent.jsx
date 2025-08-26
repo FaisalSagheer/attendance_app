@@ -28,10 +28,10 @@ function AddStudent() {
     reset,
     formState: { errors },
   } = useForm();
+  const student = `student_${Date.now()}`;
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const student = `student_${Date.now()}`;
       const ref = doc(db, "students", student);
       await setDoc(ref, data);
       setLoading(false);

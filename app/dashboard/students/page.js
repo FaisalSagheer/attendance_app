@@ -21,11 +21,12 @@ function Students() {
     try {
       const docSnap = await getDocs(StudentRef);
       if (docSnap) {
+
         // console.log(docSnap)
-        docSnap.forEach((docs) => {
-          const StudentData = docs.data();
-          setStudentList(StudentData)
+        docSnap.forEach(docs => {
+          // const StudentData = docs.data();
           // console.log(StudentData);
+          setStudentList(docs.data())
         });
       }
     } catch (error) {

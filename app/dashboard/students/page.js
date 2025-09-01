@@ -15,33 +15,47 @@ import { db } from "@/app/lib/firebase/config";
 
 function Students() {
   const [studentList, setStudentList] = useState([]);
-  // const GetAllStudents = ()=>{}
-  const FetchData = async () => {
-    const StudentRef = collection(db, "students");
-    try {
-      const docSnap = await getDocs(StudentRef);
-      if (docSnap) {
+  // const FetchData = async () => {
+  //   const StudentRef = collection(db, "students");
+  //   try {
+  //     const docSnap = await getDocs(StudentRef);
+  //     if (docSnap) {
 
-        // console.log(docSnap)
-        docSnap.forEach(docs => {
-          // const StudentData = docs.data();
-          // console.log(StudentData);
-          setStudentList(docs.data())
-        });
-      }
-    } catch (error) {
-      // toast.error("Error Fetching Data")
-      console.log(error);
+  //       // console.log(docSnap)
+  //       docSnap.forEach(docs => {
+  //         // const StudentData = docs.data();
+  //         // console.log(StudentData);
+  //         setStudentList({...docs.data(),id:docs.id})
+  //       });
+  //     }
+  //   } catch (error) {
+  //     // toast.error("Error Fetching Data")
+  //     console.log(error);
+  //   }
+  // };
+  // FetchData();
+
+  useEffect(() => {
+    const getStudent = async () => {
+      const data = await getDocs(collection(db, "students"));
+      setStudentList(data.docs.map((doc)=>({...doc.data(),id:doc.id})))
     }
-  };
-  FetchData();
+    getStudent()
+  }, [studentList])
   return (
     <div className="p-7">
       <h2 className="font-bold text-2xl flex justify-between items-center">
         Students
         <AddStudent />
       </h2>
-      <StudentListTable studentList={studentList}/>
+      {
+        studentList.map((e) =>
+          <div>
+           {e.name}
+          </div>
+        )
+      }
+      {/* <StudentListTable studentList={studentList}/> */}
     </div>
   );
 }

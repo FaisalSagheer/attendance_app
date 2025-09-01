@@ -5,7 +5,7 @@ import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 export default function StudentListTable({ studentList }) {
   ModuleRegistry.registerModules([AllCommunityModule]);
   const [colDefs, setColDef] = useState([
-    // { field: "id", filter: true },
+    { field: "id"},
     { field: "name", filter: true },
     { field: "address"},
     { field: "contact"},

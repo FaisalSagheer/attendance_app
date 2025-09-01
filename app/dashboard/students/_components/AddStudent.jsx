@@ -28,14 +28,14 @@ function AddStudent() {
     reset,
     formState: { errors },
   } = useForm();
-  const [Id, setId] = useState(0)
+  // const [Id, setId] = useState(0)
   const onSubmit = async (data) => {
     setLoading(true);
-    const student = `${Id}`;
+    // setId(Id + 1)
+    const student = `student_${Date.now()}`;
     try {
       const ref = doc(db, "students", student);
       await setDoc(ref, data);
-      setId(Id + 1)
       setLoading(false);
       toast("Student Added");
       reset();

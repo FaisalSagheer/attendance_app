@@ -16,8 +16,10 @@ export default function StudentListTable({ studentList }) {
     studentList && setRowData(studentList);
   }, [studentList]);
   return (
+    <>
     <div style={{ height: 500 }} className="mt-10">
       <AgGridReact rowData={rowData} columnDefs={colDefs} />
     </div>
+    </>
   );
 }

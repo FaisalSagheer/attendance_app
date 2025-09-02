@@ -13,7 +13,7 @@ function Students() {
 
   useEffect(() => {
     getAllStudent();
-  }, [studentList]);
+  }, []);
 
   const getAllStudent = async () => {
     const data = await getDocs(collection(db, "students"));
@@ -26,7 +26,7 @@ function Students() {
         Students
         <AddStudent />
       </h2>
-      {/* <StudentListTable studentList={studentList} /> */}
+      <StudentListTable studentList={studentList} />
     </div>
   );
 }

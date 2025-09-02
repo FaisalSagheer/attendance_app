@@ -65,11 +65,11 @@ function AddStudent() {
             <div className="grid gap-4 pb-4">
               <div className="grid gap-3">
                 <Label htmlFor="name-1">FullName :</Label>
-                <Input {...register("name", { required: true })} />
+                <Input {...register("name", { required: true, maxLength: 20, pattern: /^[A-Za-z]+$/i})} />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="address">Address :</Label>
-                <Input {...register("address", { required: true })} />
+                <Input {...register("address", {required:true })} />
               </div>
               <div className="grid gap-3">
                 <Label>Contact :</Label>
@@ -95,12 +95,10 @@ function AddStudent() {
               </DialogClose>
               <DialogClose asChild>
                 <Button type="submit" disable={loading}>
-                  {loading ? <LoaderCircle className="animate-spin" /> : "Save"}
+                  {loading ? <LoaderCircle className="animate-spin" /> : "Add"}
                 </Button>
               </DialogClose>
             </DialogFooter>
-            {/* <Input {...register('example',{required:true})}/> */}
-            {/* {errors.example && <span>This field is required</span>} */}
           </form>
         </DialogContent>
       </Dialog>

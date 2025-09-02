@@ -45,7 +45,7 @@ export default function Sidebar() {
       onAuthStateChanged(auth, async () => {
     const local = localStorage.getItem("User");
     if (local) {
-      const docRef = doc(db, "teachers", local);
+      const docRef = doc(db, "admin", local);
       const docSnap = await getDoc(docRef);
       try{
           if (docSnap.exists()) {

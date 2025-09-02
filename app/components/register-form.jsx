@@ -25,34 +25,25 @@ function RegisterForm({ className, ...props }) {
   });
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
+    const router = useRouter();
   const createUser = async (e) => {
     e.preventDefault();
-    const router = useRouter();
-    // if (!payLoad.fname) {
-    //   toast("Write Name");
-    //   return;
-    // } else if (!payLoad.email) {
-    //   toast("Write Email");
-    //   return;
-    // }else if (!payLoad.password) {
-    //   toast("Write password");
-    //   return;
-    // }
-    // else{
+    
     try {
       const userCredentials = await createUserWithEmailAndPassword(
         payLoad.email,
         payLoad.password
       );
       const user = userCredentials.user;
-      const docRef = doc(db, "teachers", user.uid);
+      const docRef = doc(db, "admin", user.uid);
       setDoc(docRef, payLoad);
       router.push("/login");
+      toast("Admin")
       console.log(payLoad);
     } catch (error) {
-      console.log(error);
+      toast.error("Error")
+      // console.log(error);
     }
-    // }
 
   };
   return (

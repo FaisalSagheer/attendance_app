@@ -14,7 +14,6 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { auth, db } from "@/app/lib/firebase/config";
-import Invalid from "../(auth)/login/error";
 import { toast, ToastContainer } from "react-toastify";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 

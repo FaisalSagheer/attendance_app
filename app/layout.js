@@ -26,8 +26,8 @@ export default function RootLayout({ children }) {
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          // enableSystem
           disableTransitionOnChange
         >
           <ToastContainer />
